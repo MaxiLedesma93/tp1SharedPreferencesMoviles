@@ -2,6 +2,7 @@ package com.ledesma.tp1loginsharedp.request;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import com.ledesma.tp1loginsharedp.model.Usuario;
 
@@ -33,7 +34,8 @@ public class ApiClient {
         String apellido = sp.getString("apellido","-1");
         String mail = sp.getString("mail","-1");
         String password = sp.getString("password","-1");
-        return new Usuario(dni, nombre, apellido, mail, password);
+        Usuario usuario = new Usuario(dni, nombre, apellido, mail, password);
+        return usuario;
 
     }
     public static Usuario login(Context context, String email, String pass){
@@ -46,6 +48,8 @@ public class ApiClient {
         String password = sp.getString("password","-1");
         if(mail.equals(email)&&password.equals(pass)){
             usuario = new Usuario(dni, nombre, apellido,mail, password);
+        }else {
+            Toast.makeText(context, "Usuario y/o Contraseña Incorrectos", Toast.LENGTH_SHORT).show();
         }
         return usuario;
     }

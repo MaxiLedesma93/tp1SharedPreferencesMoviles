@@ -2,6 +2,7 @@ package com.ledesma.tp1loginsharedp.ui.login;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -11,36 +12,34 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.ledesma.tp1loginsharedp.model.Usuario;
 import com.ledesma.tp1loginsharedp.request.ApiClient;
+import com.ledesma.tp1loginsharedp.ui.registro.RegistroActivity;
 
 public class MainActivityViewModel extends AndroidViewModel {
     private Context context;
-    private MutableLiveData<String> mMail;
-    private MutableLiveData<String> mPassword;
+    private MutableLiveData<Usuario> mUsuario;
     public MainActivityViewModel(@NonNull Application application) {
         super(application);
         context = getApplication().getApplicationContext();
     }
 
-    public LiveData<String> getMMail(){
-        if(mMail==null){
-            mMail = new MutableLiveData<>();
+    public LiveData<Usuario> getmUsuario() {
+        if(mUsuario == null){
+            mUsuario = new MutableLiveData<>();
         }
-        return mMail;
+        return mUsuario;
     }
-    public LiveData<String> getMPasssword(){
-        if(mPassword==null){
-            mPassword = new MutableLiveData<>();
+    public void loguear(String user, String pass){
+        Usuario usuario = ApiClient.login(getApplication(), user, pass);
+        if(usuario!=null){
+            mUsuario.setValue(usuario);
         }
-        return mPassword;
     }
 
-    public void loguearse(String email, String pass){
-        ApiClient api = new ApiClient();
-        if(email.isEmpty()||pass.isEmpty()){
-            Toast.makeText(context, "Introduzca un correo y una contraseña", Toast.LENGTH_SHORT).show();
-        }else {
-            Usuario usuario = new Usuario();
-        }
+    public void registrarse(){
+        Intent intent = new Intent(context, RegistroActivity.class);
+        intent.putExtra("usuario", false);
+        intent.addFlags(-1);
+        context.startActivity(intent);
     }
 
 
