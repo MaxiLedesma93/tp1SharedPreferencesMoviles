@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.ledesma.tp1loginsharedp.R;
 import com.ledesma.tp1loginsharedp.databinding.ActivityMainBinding;
+import com.ledesma.tp1loginsharedp.model.Usuario;
 import com.ledesma.tp1loginsharedp.ui.registro.RegistroActivity;
 import com.ledesma.tp1loginsharedp.ui.registro.RegistroActivityViewModel;
 
@@ -23,6 +25,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
                 .create(MainActivityViewModel.class);
+        viewModel.getmUsuario().observe(this, new Observer<Usuario>() {
+            @Override
+            public void onChanged(Usuario usuario) {
+                Intent intent = new Intent(MainActivity.this, RegistroActivity.class);
+                startActivity(intent);
+            }
+        });
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

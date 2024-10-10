@@ -28,13 +28,12 @@ public class RegistroActivityViewModel extends AndroidViewModel {
         return mUsuario;
     }
 
-    public void cargar(Intent intent){
-        ApiClient api = new ApiClient();
-        int existe = intent.getFlags();
-        Usuario usuario = new Usuario();
-        if(existe != -1){
-            usuario = ApiClient.leer(context);
+    public void cargar(){
+        Usuario usuario = ApiClient.leer(context);
+        if(!usuario.getNombre().equals("-1")){
+            mUsuario.setValue(ApiClient.leer(context));
         }
+
     }
     public void guardar(String nombre, String apellido, String dni, String mail, String pass){
         if(!nombre.isEmpty()&&!apellido.isEmpty()&&!dni.isEmpty()&&!mail.isEmpty()&&!pass.isEmpty()){

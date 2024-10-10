@@ -28,6 +28,17 @@ public class RegistroActivity extends AppCompatActivity {
         viewModel = ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())
                 .create(RegistroActivityViewModel.class);
         setContentView(binding.getRoot());
+        viewModel.getMUsuario().observe(this, new Observer<Usuario>() {
+            @Override
+            public void onChanged(Usuario usuario) {
+                binding.etNombre.setText(usuario.getNombre());
+                binding.etApellido.setText(usuario.getApellido());
+                binding.etDni.setText(String.valueOf(usuario.getDni()));
+                binding.etEmail.setText(usuario.getMail());
+                binding.etPass.setText(usuario.getPassword());
+
+            }
+        });
 
         binding.btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,17 +52,7 @@ public class RegistroActivity extends AppCompatActivity {
             }
         });
 
-        viewModel.getMUsuario().observe(this, new Observer<Usuario>() {
-            @Override
-            public void onChanged(Usuario usuario) {
-                binding.etNombre.setText(usuario.getNombre());
-                binding.etApellido.setText(usuario.getApellido());
-                binding.etDni.setText(String.valueOf(usuario.getDni()));
-                binding.etEmail.setText(usuario.getMail());
-                binding.etPass.setText(usuario.getPassword());
 
-            }
-        });
-        viewModel.cargar(getIntent());
+        viewModel.cargar();
     }
 }
